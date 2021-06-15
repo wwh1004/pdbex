@@ -878,6 +878,16 @@ SymbolModule::ProcessSymbolUdt(
 		DiaChildSymbol->get_type(&MemberTypeDiaSymbol);
 		Member->Type = GetSymbol(MemberTypeDiaSymbol);
 
+		DataKind Kind = {};
+		DiaChildSymbol->get_dataKind((DWORD*)&Kind);
+		BOOL IsStatic = Kind == DataIsStaticMember;
+
+		if (IsStatic)
+		{
+			Symbol->u.Udt.FieldCount--;
+			continue;
+		}
+
 		Index += 1;
 	}
 
